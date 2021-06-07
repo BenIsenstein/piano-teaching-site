@@ -1,20 +1,77 @@
-const mongoose = require('mongoose');
+//db setup
 
-/* Moved credentials to .env */
+require("dotenv").config()
+const mongoose = require("mongoose")
+const mongoAtlasUrl = process.env.MONGODB_URL
 
-// const mongoUser = 'dbReadOnlyUser';
-// const mongoPasswd = 'jelly1234';
-// const mongoDBName = 'MERN-STARTER-DB';
-// const mongoServer = 'cluster0.vvqav.mongodb.net';
-// const url =
-//   `mongodb+srv://${mongoUser}:${mongoPasswd}` +
-//   `@${mongoServer}/${mongoDBName}?retryWrites=true&w=majority`;
 
-// const localMongoUrl = "mongodb://localhost:27017/c6Superheroes"
+mongoose
+  .connect(mongoAtlasUrl, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  })
+  .then(function () {
+    console.log("Connected to DB...")
+  })
+  .catch(function (err) {
+    console.log(err)
+  }
+)
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.once('open', (_) =>
-  console.log('MongoDB is now connected:', process.env.MONGODB_URL)
-);
-db.on('error', (err) => console.error('MongoDB connection error!', err));
+const db = mongoose.connection
+
+db.on("error", (err) => console.error("MongoDB connection error!", err))
+db.once("open", () => console.log("MongoDB is now connected! @ ", mongoAtlasUrl))
+
+
+const userSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: String
+})
+
+userSchema.methods.validPassword = function (pwd) {
+  return this.password === pwd
+}
+
+const User = mongoose.model("User", userSchema)
+
+const findUserByName = async (name) => {
+  let result = await User.findOne({ username: name })
+  return result
+}
+
+const findUserById = async (id) => {
+  let result = await User.findOne({ _id: id })
+  return result
+}
+
+const addUser = async (newUser) => {
+  let result = await newUser.save()
+  return result.username + " succesfully added to database!"
+}
+
+
+// General db functions
+
+const closeDb = async () => await db.close({ force: true })
+
+const searchByFragment = async (model, attribute, fragment) => await model.find({ [attribute]: new RegExp(`.*${fragment}.*`, "i") })
+
+module.exports = {
+  closeDb,
+  searchByFragment,
+  Garden,
+  User,
+  addGarden,
+  listGardens,
+  deleteGardenByName,
+  findGardenByAddress,
+  findGardenByName,
+  findUserByName,
+  findUserById,
+  addUser
+}
