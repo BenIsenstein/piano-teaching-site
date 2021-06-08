@@ -1,9 +1,8 @@
 import "./App.css"
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom"
 
 import AuthenticationProvider from "./auth/AuthenticationProvider"
-import LogInOrOut from "./components/User/LogInOrOut"
 import Homepage from "./pages/Homepage/Homepage"
 import ContactPage from "./pages/ContactPage/ContactPage"
 import MyPhilosophyPage from "./pages/MyPhilosophyPage/MyPhilosophyPage"
