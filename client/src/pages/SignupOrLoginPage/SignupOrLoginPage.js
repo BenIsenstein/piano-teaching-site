@@ -3,7 +3,7 @@ import Login from "../../components/User/Login"
 import Signup from "../../components/User/Signup"
 import "../../components/User/Signup.css"
 
-function SignupOrLogin() {
+function SignupOrLoginPage() {
   const [signupOrLogin, setSignupOrLogin] = useState(<Login/>)
   const [color, setColor] = useState("#05386B")
   const [inactiveColor, setInactiveColor] = useState('#379683')
@@ -31,4 +31,4 @@ function SignupOrLogin() {
   )
 }
 
-export default SignupOrLogin
+export default SignupOrLoginPage
