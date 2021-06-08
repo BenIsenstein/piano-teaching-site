@@ -2,17 +2,15 @@
 
 require("dotenv").config()
 const mongoose = require("mongoose")
-const mongoAtlasUrl = process.env.MONGODB_URL
 
 mongoose
-  .connect(mongoAtlasUrl, { useUnifiedTopology: true, useNewUrlParser: true })
-  .then(() => console.log("Connected to DB..."))
+  .connect(process.env.MONGODB_URL, { useUnifiedTopology: true, useNewUrlParser: true })
   .catch((err) => console.log(err))
 
 const db = mongoose.connection
 
 db.on("error", (err) => console.error("MongoDB connection error!", err))
-db.once("open", () => console.log("MongoDB is now connected! @ ", mongoAtlasUrl))
+db.once("open", () => console.log("MongoDB is now connected!"))
 
 // User model and functions
 

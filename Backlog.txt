@@ -1,13 +1,148 @@
 Add auth check inside the useEffect() in UserHomepage. Right now anyone can visit any user's account
 
+--------------------------
+|vision for UserHomepage:|
+--------------------------
+
+App-wide nav bar down the side: - (Container component??)
+    * home 
+    * about
+    * philosophy
+    * contact
+    * my account
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Main view with tabs: # 'exploring music with me since ___' always presented
+
+    * Students:
+        > add student
+            # name
+            # optional nickname(s)
+            # photo
+            # optional gender
+            # what they can see in their account (stretch goal)
+            # optional comments about the student
+        > name, photo. clickable to enter StudentHomepage
+            # 'studying with me since ___' always visible
+            # settings
+                - edit name
+                - optional add nickname
+                - optional edit nickname
+                - edit photo
+                - optional select gender
+                - edit what the student can see in their account (stretch goal)
+                - optional edit comments about the student
+                - delete student
+            # lesson history
+                - single lesson summary
+                    $ Title
+                    $ month/day/year
+                    $ comments, ideas
+                    $ specific practice tasks
+                    $ related links, videos, pdfs 
+            # All links, videos, pdfs ever
+                - single resource
+                    $ Title
+                    $ month/day/year
+                    $ content
+            # Milestones
+                - single Milestone 
+                    $ Title
+                    $ month/day/year
+                    $ comments
+                    $ related links, videos, pdfs 
+            # Tree of knowledge 
+                - the same for all students
+                - branches too advanced are blurred
+                - less opaque if not yet completed, but achievable soon
+                - completed are opaque and have color
+                    $ Title
+                    $ month/day/year
+                    $ Link to milestone if applicable
+            # Mind map of their interests
+                - customizable format 
+                - single item
+                    $ Title
+                    $ month/day/year
+                    $ any questions at the time
+            # Games
+                - menu
+                    $ single game
+
+         * * * * * * * * * * * * * * * * * * * *
+
+    * Payments
+        > view number of hours currently paid for
+        > settings
+            # redirect to billing in main settings menu
+        > history (list page of all payments)
+            # total number of lessons taken in hours ("Funny message!")
+            # single payment (checkable from main list view, to download selection)
+                - date
+                - total in hours
+                - total in dollars
+                - official receipt
+            # download selection button
+            # download all (separate files)
+            # download all (single files)
+        > make payment
+            # view number of hours currently paid for
+            # select amount of 30min lessons
+            # select amount of 60min lessons
+            # display total
+            # checkout button 
+                - choose payment type
+                    $ one-time
+                    $ add new
+                    $ saved 
+                - confirm and checkout
+                    $ confirmation page
+                    $ email sent
+
+        * * * * * * * * * * * * * * * * * * * *
+
+    * settings 
+        > billing
+            # edit existing method
+            # add method
+            # remove method
+            # setup recurring
+        > color scheme
+            # choose from menu
+            # adjust manually (stretch goal)
+        > contact
+            # email
+                - edit existing
+                - add
+                - remove
+            # phone 
+                - edit existing
+                - add
+                - remove
+            # address
+                - edit existing
+                - add
+                - remove
+        > account
+            # edit username
+            # edit password
+            # delete account
+        > students
+            # menu to select student
+                - redirect to settings menu in the student area
+    
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    
+
+
+
 Add story for signing up.
 - add every student under the account
-
 
 Add payment story.
 - select the amount of 30min/60min sessions you're paying for
 - choose between one-time or saved billing info 
-
 
 Account settings stories
 - save billing info
