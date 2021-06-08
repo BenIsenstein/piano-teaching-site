@@ -9,6 +9,7 @@ import ContactPage from "./pages/ContactPage/ContactPage"
 import MyPhilosophyPage from "./pages/MyPhilosophyPage/MyPhilosophyPage"
 import AboutPage from "./pages/AboutPage/AboutPage"
 import SignupOrLoginPage from "./pages/SignupOrLoginPage/SignupOrLoginPage"
+import UserHomepage from "./pages/UserHomepage/UserHomepage"
 
 const App = () => {
   return (
@@ -26,6 +27,9 @@ const App = () => {
           </Route>
           <Route path="/login">
             <SignupOrLoginPage />
+          </Route>
+          <Route path="/user/:id">
+            <UserHomepage />
           </Route>
           <Route path="/">
             <Homepage />

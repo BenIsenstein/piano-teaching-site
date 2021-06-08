@@ -1,8 +1,8 @@
 import React from 'react'
 
-// UPDATE FOR GARDENING APP
 const AuthenticationContext = React.createContext({
     username: '',
+    id: '',
     isAdministrator: false,
     logIn: (username, isAdministrator) => {},
     logOut: () => {}

@@ -7,18 +7,20 @@ const LogInOrOut = () => {
   const isLoggedIn = authContext.username !== undefined
 
   return (
-    <div style={{color: 'white'}}>
+    <div style={{color: 'black'}}>
       {isLoggedIn 
         ? (
           <div>
-            <span>Hello {authContext.username} &nbsp;&nbsp; </span>
+            <span>Welcome {authContext.username} &nbsp;&nbsp; </span>
             <button className='logout-button' onClick={async () => await authContext.logOut()}>Logout</button>   
           </div>    
         ) 
         : (
-          <Link to="/login">
-            Login
-          </Link>
+          <button className='logout-button'>
+            <Link to="/login">
+              Login
+            </Link>
+          </button>
         )
       }
     </div>   

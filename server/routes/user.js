@@ -10,14 +10,13 @@ router.post("/signup",
   async (req, res) => {
     // if someone is already logged in, prompt them to logout first
     if (req.isAuthenticated()) {
-      return res.json({isAlreadyLoggedIn: true})
+      return res.json({ isAlreadyLoggedIn: true })
     }
     
     let body = req.body
-    console.log('req body: ', body)
 
     body.password = await bcrypt.hash(body.password, 10)
-    body.dateSignedUp = new Date()
+    body.dateSignedUp = new Date().toString()
     
     let newUser = new User(body)
 
@@ -26,13 +25,23 @@ router.post("/signup",
 
     res.json({
       message: `
-      You have successfuly signed up ${body.username}! 
-      You will be logged in and directed to our home page.
+      Thanks for signing up ${body.username}! 
+      You will be logged in and directed to my home page.
       `
     })
   }
 )
 
+
+// ----------------------------------- GET ONE USER ----------------------------
+
+router.get('/single-user/:id',
+  async (req, res) => {
+    try { res.json({ user: await User.findOne({ _id: req.params.id }) }) }
+
+    catch(err) {console.log(`Error getting user ${req.params.id}:`, err)}
+  }
+)
 // ----------------------------------- LOGIN -----------------------------------
 
 router.post("/login",
@@ -40,7 +49,7 @@ router.post("/login",
   (req, res, next) => {
     // if someone is already logged in, send back {isAlreadyLoggedIn: true}
     if (req.isAuthenticated()) {
-      res.json({isAlreadyLoggedIn: true})
+      res.json({ isAlreadyLoggedIn: true })
     } 
     // move to authentication middleware if no one is logged in
     else {
@@ -52,7 +61,7 @@ router.post("/login",
   passport.authenticate("local"),
   // if authentication passes, the next function has access to req.user
   (req, res) => {
-    res.json({username: req.user.username})
+    res.json({ user: req.user })
   }
 )
 
@@ -60,7 +69,7 @@ router.post("/login",
 
 router.get("/getloggedinuser",
   // check if someone is already logged in
-  (req, res,) => {res.json({user: req.user})}
+  (req, res,) => {res.json({ user: req.user })}
 )
 
 // ----------------------------------- LOGOUT -----------------------------------

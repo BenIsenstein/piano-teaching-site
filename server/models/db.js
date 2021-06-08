@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  password: String
+  password: String,
+  dateSignedUp: String
 })
 
 userSchema.methods.validPassword = function (pwd) {

@@ -5,9 +5,10 @@ import AuthenticationContext from './AuthenticationContext'
 // UPDATE FOR GARDENING APP
 const AuthenticationProvider = ({ children }) => {
     let history = useHistory()
-    const goBack = () => history.goBack()
+    const redirectHome = () => history.push('/')
 
     const [username, setUsername] = useState()
+    const [id, setId] = useState()
     const [isAdministrator, setIsAdministrator] = useState(false)
 
     useEffect(() => {
@@ -15,8 +16,13 @@ const AuthenticationProvider = ({ children }) => {
         try {
           let response = await fetch('/api/user/getloggedinuser')
           let resObject = await response.json()
+          console.log('AuthProvider user: ', resObject.user)
 
-          if (resObject.user) {setUsername(resObject.user.username)}
+          if (resObject.user) {
+            let { username, _id } = resObject.user
+            setUsername(username) 
+            setId(_id)
+          }
         }
         catch(err) {
           console.log(err)
@@ -48,11 +54,17 @@ const AuthenticationProvider = ({ children }) => {
         if (resObject.isAlreadyLoggedIn) {alert('You are already logged in. Please log out before logging in as a different gardener.')}
         
         // success logging in server-side
-        else {setUsername(resObject.username); goBack()}
+        else {
+          let { username, _id } = resObject.user
+          setUsername(username) 
+          setId(_id)
+          redirectHome()
+        }
       }
       catch(err) {
         // reset context
         setUsername(undefined)
+        setId(undefined)
 
         // logout the user server-side, incase they got logged in before error occurred in the code block
         try {await fetch('/api/user/logout')} 
@@ -69,7 +81,7 @@ const AuthenticationProvider = ({ children }) => {
         let response = await fetch("/api/user/logout")
         let resObject = await response.json()
   
-        if (resObject.isLoggedOutNow) {setUsername(undefined)}
+        if (resObject.isLoggedOutNow) {setUsername(undefined); setId(undefined)}
         else {alert('You are still logged in for some reason. Please try logging out again.')}
       }
       catch(err) {
@@ -80,6 +92,7 @@ const AuthenticationProvider = ({ children }) => {
 
     let contextValue = {
         username, 
+        id,
         isAdministrator,
         logIn,
         logOut
