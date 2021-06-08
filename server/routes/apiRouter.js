@@ -1,9 +1,8 @@
 const router = require('express').Router()
 
-const superheroRouter = require('./superhero')
-const authRouter = require('./auth')
+const userRouter = require('./user')
 
-router.use('/auth', authRouter)
-router.use('/superhero', superheroRouter)
+router.use('/user', userRouter)
+
 
 module.exports = router

@@ -34,4 +34,3 @@ passport.use(new LocalStrategy(verifyUser))
 passport.serializeUser((user, done) => done(null, user.id))
 passport.deserializeUser(async (id, done) => await deserialize(id, done))
 
-module.exports = initialize

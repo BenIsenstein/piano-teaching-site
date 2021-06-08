@@ -5,17 +5,9 @@ const mongoose = require("mongoose")
 const mongoAtlasUrl = process.env.MONGODB_URL
 
 mongoose
-  .connect(mongoAtlasUrl, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-  })
-  .then(function () {
-    console.log("Connected to DB...")
-  })
-  .catch(function (err) {
-    console.log(err)
-  }
-)
+  .connect(mongoAtlasUrl, { useUnifiedTopology: true, useNewUrlParser: true })
+  .then(() => console.log("Connected to DB..."))
+  .catch((err) => console.log(err))
 
 const db = mongoose.connection
 
@@ -24,7 +16,7 @@ db.once("open", () => console.log("MongoDB is now connected! @ ", mongoAtlasUrl)
 
 // User model and functions
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
