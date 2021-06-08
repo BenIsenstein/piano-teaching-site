@@ -7,7 +7,12 @@ const UserHomepage = () => {
     username: "Loading..."
   })
 
+  const history = useHistory()
+  
+
   useEffect(() => {
+    const handleNoPage = () => {alert("This page does not exist."); history.push('/')}
+    
     const fetchUser = async () => {
       let fetchUrl = `/api/user/single-user/${username}`
 
@@ -15,7 +20,9 @@ const UserHomepage = () => {
         let response = await fetch(fetchUrl)
         let resObject = await response.json()
 
-        resObject.user ? setUser(resObject.user) : setUser(undefined)
+        if (resObject.user) setUser(resObject.user)
+        else handleNoPage()
+
       } catch(err) {
         console.log(`error fetching account '${username}':`, err)
         alert("There was an error loading your account. We're fixing it as fast as we can.")
@@ -23,9 +30,9 @@ const UserHomepage = () => {
     }
 
     fetchUser()
-  }, [username])
+  }, [username, history])
 
-  return <div>{user?.username ? `${user.username}` : 'NOT FOUND'}</div>
+  return <div>{user?.username ? `${user.username}` : "NOT FOUND"}</div>
 }
 
 export default UserHomepage
