@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/login">
             <SignupOrLoginPage />
           </Route>
-          <Route path="/user/:id">
+          <Route path="/:username">
             <UserHomepage />
           </Route>
           <Route path="/">

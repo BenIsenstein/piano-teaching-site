@@ -7,7 +7,7 @@ import "./Homepage.css"
 const Homepage = () => {
   const authContext = useContext(AuthenticationContext)
   const isLoggedIn = authContext.username !== undefined
-  const UserHomepageLink = () => <Link to={{pathname: `/user/${authContext.id}`}}>My account</Link>
+  const UserHomepageLink = () => <Link to={{pathname: `/${authContext.username}`}}>My account</Link>
 
   return (
     <div className="homepage">

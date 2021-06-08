@@ -35,11 +35,11 @@ router.post("/signup",
 
 // ----------------------------------- GET ONE USER ----------------------------
 
-router.get('/single-user/:id',
+router.get('/single-user/:username',
   async (req, res) => {
-    try { res.json({ user: await User.findOne({ _id: req.params.id }) }) }
+    try { res.json({ user: await User.findOne({ username: req.params.username }) }) }
 
-    catch(err) {console.log(`Error getting user ${req.params.id}:`, err)}
+    catch(err) {console.log(`Error getting user ${req.params.username}:`, err)}
   }
 )
 // ----------------------------------- LOGIN -----------------------------------
