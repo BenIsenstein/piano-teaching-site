@@ -10,6 +10,7 @@ const AuthenticationProvider = ({ children }) => {
     const [username, setUsername] = useState()
     const [id, setId] = useState()
     const [isAdministrator, setIsAdministrator] = useState(false)
+    const isLoggedIn = username !== undefined
 
     useEffect(() => {
       const checkLoggedInUser = async () => {
@@ -91,11 +92,12 @@ const AuthenticationProvider = ({ children }) => {
     }
 
     let contextValue = {
-        username, 
-        id,
-        isAdministrator,
-        logIn,
-        logOut
+      username, 
+      id,
+      isAdministrator,
+      isLoggedIn,
+      logIn,
+      logOut
     }
 
     return (

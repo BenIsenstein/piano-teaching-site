@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
 import { useForm } from "react-hook-form"
 import "./Signup.css"
-import AuthenticationContext from "../../auth/AuthenticationContext"
+import AuthenticationContext from "../../contexts/auth/AuthenticationContext"
 
 const Signup = () => {
   const authContext = useContext(AuthenticationContext)

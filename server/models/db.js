@@ -13,15 +13,84 @@ db.on("error", (err) => console.error("MongoDB connection error!", err))
 db.once("open", () => console.log("MongoDB is now connected!"))
 
 // User model and functions
+// stretch goals yet to be added: 
+// Tree of knowledge
+// Personal mind map
+// games
+// adjustable color scheme
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
+  username: String,
   password: String,
-  dateSignedUp: String
+  dateSignedUp: String,
+  students: [{
+    id: String,
+    student: {
+      name: String,
+      nicknames: [String],
+      photo: mongoose.Mixed,
+      gender: String,
+      about: String,
+      studyingSince: String,
+      lessonHistory: [{
+        title: String,
+        date: String,
+        comments: String,
+        homework: String,
+        resources: [{
+          title: String,
+          date: String,
+          content: mongoose.Mixed
+        }]
+      }], 
+      allResources: [{
+        title: String,
+        date: String,
+        content: mongoose.Mixed
+      }],
+      milestones: [{
+        title: String,
+        date: String,
+        comments: String,
+        resources: [{
+          title: String,
+          content: mongoose.Mixed
+        }]
+      }]
+    }
+  }],
+  payments: {
+    remainingHoursPaid: Number,
+    totalHoursStudied: Number,
+    paymentHistory: [{
+      date: String,
+      totalHours: Number,
+      totalDollars: Number,
+      receipt: mongoose.Mixed
+    }]
+  },
+  settings: {
+    billing: {
+      existingPaymentMethods: [{  // will have to be updated to match stripe format
+        id: String,
+        cardNumber: String
+      }],
+      recurringPayments: [{
+        startDate: String,
+        frequency: Number,    // payment frequency in Months
+        amount: Number
+      }]
+    },
+    colorScheme: {
+      type: String, 
+      default: 'default'
+    },
+    contact: {
+      emails: [String],
+      phoneNumbers: [Number],
+      addresses: [String]
+    }
+  }
 })
 
 userSchema.methods.validPassword = function (pwd) {

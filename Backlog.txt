@@ -1,5 +1,3 @@
-Add auth check inside the useEffect() in UserHomepage. Right now anyone can visit any user's account
-
 --------------------------
 |vision for UserHomepage:|
 --------------------------
@@ -85,7 +83,7 @@ Main view with tabs: # 'exploring music with me since ___' always presented
                 - official receipt
             # download selection button
             # download all (separate files)
-            # download all (single files)
+            # download all (single file)
         > make payment
             # view number of hours currently paid for
             # select amount of 30min lessons
@@ -134,12 +132,6 @@ Main view with tabs: # 'exploring music with me since ___' always presented
     
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
-
-
-
-Add story for signing up.
-- add every student under the account
-
 Add payment story.
 - select the amount of 30min/60min sessions you're paying for
 - choose between one-time or saved billing info 
@@ -147,3 +139,94 @@ Add payment story.
 Account settings stories
 - save billing info
 - email preferences
+
+Save a lesson story 
+- input Title
+- input comments
+- input homework
+- add resources
+    * resource Title
+    * content
+
+Save a milestone story
+- input Title
+- input comments
+- add resources
+    * resource Title
+    * content
+
+June 8:
+- add payments and settings to user Schema √
+
+June 9:
+- build the container for the three different views in UserHomepage
+- tabs along the top to switch between students, payments, settings
+pieces of state for each view:
+
+-  when a user logs out, assess if they're still authorized to be on their current page, or be redirected.
+
+Add auth check inside the useEffect() in UserHomepage. Right now anyone can visit any user's account
+
+Devise a method to book lessons with familes/students. Lightweight Calendar/Messaging API?
+- This will ensure kids can't add infinite lessons, polluting their account
+
+
+UserHomepage container
+    - MainStudentsDisplay
+        * AddStudentForm
+        * StudentHomepage
+            > EditStudentInfoForm
+            > StudentSettingsPage (fields are editable one-by-one in this view)    
+            > LessonHistoryList
+                # AddLessonForm 
+                # SingleLessonPage
+                    @ SingleLessonResource
+            > ResourceHistoryList
+                # AddResourceForm
+                # SingleLessonResource
+            > MilestonesList
+                # AddMilestoneForm
+                # SingleMilestone
+                    @ SingleMilestoneResource
+    - MainPaymentsDisplay
+        * BillingSettings (part of settings area)
+        * PaymentHistoryList
+            > SinglePayment
+        * MakeAPaymentPage 
+            > ChooseCardAndCheckoutPage
+                # PaymentConfirmedPage
+    - MainSettingsDisplay
+        * BillingSettings
+            > EditExistingBillingMethodForm
+            > AddBillingMethodForm
+            > SetupReccurringPaymentForm
+        * ColorSchemeSettings
+        * ContactSettings (All editable within same view)
+        * AccountSettings (All editable within same view)
+        * StudentSettings
+            > (Select a student's icon to go to their respective StudentSettingsPage)
+        
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Color scheme:
+
+https://visme.co/blog/website-color-schemes/
+
+favourites - 
+8
+10 
+11
+14
+15
+16
+19
+25
+32
+35
+37
+39
+42
+43
+44
+50

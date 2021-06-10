@@ -1,3 +1,6 @@
-const MyPhilosophyPage = () => (<div>My Philosphy Page</div>)
+const MyPhilosophyPage = () => {
+
+  return(<div>My Philosphy Page</div>)
+}
 
 export default MyPhilosophyPage

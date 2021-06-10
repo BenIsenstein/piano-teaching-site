@@ -1,0 +1,14 @@
+.homepage-body {
+    width: calc(100vw - 25px);
+    height: calc(100vh - 10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.homepage-buttons {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 10px);
+}

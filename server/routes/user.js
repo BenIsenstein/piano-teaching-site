@@ -17,11 +17,29 @@ router.post("/signup",
 
     body.password = await bcrypt.hash(body.password, 10)
     body.dateSignedUp = new Date().toString()
+    body.students = []
+    body.payments = {
+      remainingHoursPaid: 0,
+      totalHoursStudied: 0,
+      paymentHistory: []
+    }
+    body.settings = {
+      billing: {
+        existingPaymentMethods: [],
+        recurringPayments: []
+      },
+      colorScheme: 'default',
+      contact: {
+        emails: body.emails,
+        phoneNumbers: body.phoneNumbers,
+        addresses: body.addresses
+      }
+    }
     
     let newUser = new User(body)
-
     await addUser(newUser)
-    console.log("New user has been added: ", newUser)
+    
+    console.log("New user has been added: ", body.username)
 
     res.json({
       message: `
