@@ -1,38 +1,41 @@
-import { useContext } from "react"
+import React, { useContext } from "react"
 import ColorSchemeContext from "../../contexts/colorSchemeContext/ColorSchemeContext"
 
-const ColorSchemeWrapper = ({ children, styleConfig}) => {
+// ----- most common props: --------
+// type - defaults to 'div'. Can be any html tag that React recognizes, or any React component.
+// style - inline, used to access the global color scheme through '_color1' syntax.
+// *Any other standard props are available ex. onClick, className
+
+const ColorSchemeWrapper = ({ style, ...props }) => {
   // use ColorSchemeContext
-  const colorContext = useContext(ColorSchemeContext)
+  const colorScheme = useContext(ColorSchemeContext).colorScheme
 
-  // define sensible className with the first key/value pair in styleConfig
-  let semanticClassName = Object.keys(styleConfig)[0] 
-                          + '-'                         
-                          + Object.values(styleConfig)[0]
+  // colorRegex to replace '_colorX' in styleConfig with the actual color codes
+  const colorRegex = /_color(1|2|3|4|5)/g
 
-  // create style object using colors from colorContext -> 
+  // define sensible className using the first key/value pair in styleConfig
+  const semanticClassName = style 
+    ? Object.entries(style)[0].join('-').replace(/_/g, '') 
+    : "Color-scheme-wrapper"
+                          
+  // create new style object using colors from colorContext -> 
   // it must be done this way as props can't be altered
-  let dynamicStyle = {}
+  const dynamicStyle = {}
 
-  for (let attribute in styleConfig) {
-    let colorKey = styleConfig[attribute]  
-    dynamicStyle[attribute] = colorContext.colorScheme[colorKey]
-  }     
+  for (let key in style) {
+    dynamicStyle[key] = style[key].replace(colorRegex, (match) => colorScheme[match])
+  }
+  
+  // wrap children and use dynamicStyle
+  const propsForChildren = { 
+    className: props.className || semanticClassName, 
+    style: dynamicStyle,
+    ...props
+  }
+  const tagType = props.type || 'div'
+  const Wrapper = ({ children }) => React.createElement(tagType, propsForChildren, children)
 
-  //make children an array even when just a single child
-  if (!Array.isArray(children)) children = [children]
-
-  const wrappedChildren = children.map((child, index) => 
-    <div
-      key={semanticClassName + '-key' + index}
-      className={semanticClassName} 
-      style={dynamicStyle}
-    >
-      {child}
-    </div> 
-  )
-
-  return wrappedChildren
+  return <Wrapper>{props.children}</Wrapper>
 }
 
 export default ColorSchemeWrapper

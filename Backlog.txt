@@ -170,6 +170,12 @@ Add auth check inside the useEffect() in UserHomepage. Right now anyone can visi
 Devise a method to book lessons with familes/students. Lightweight Calendar/Messaging API?
 - This will ensure kids can't add infinite lessons, polluting their account
 
+Fix buggy HomepageProvider. It only works when you start on the homepage.
+
+Semantically change MenuOnLeft.
+
+
+
 
 UserHomepage container
     - MainStudentsDisplay

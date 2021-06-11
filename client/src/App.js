@@ -1,7 +1,5 @@
 import "./App.css"
-
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom"
-
 import AuthenticationProvider from "./contexts/auth/AuthenticationProvider"
 import WebsiteHomepage from "./pages/SiteHomepage/SiteHomepage"
 import ContactPage from "./pages/ContactPage/ContactPage"
@@ -11,36 +9,47 @@ import SignupOrLoginPage from "./pages/SignupOrLoginPage/SignupOrLoginPage"
 import UserHomepage from "./pages/UserHomepage/UserHomepage"
 import MenuOnLeft from "./components/MenuOnLeft/MenuOnLeft"
 import SiteHomepageProvider from "./contexts/homepageContext/HomepageProvider"
+import ColorSchemeProvider from "./contexts/colorSchemeContext/ColorSchemeProvider"
+import ColorSchemeWrapper from "./components/ColorSchemeWrapper/ColorSchemeWrapper"
+
+const appWideStyle = {
+  backgroundColor: "_color1",
+  border: "4px dotted _color4",
+}
 
 const App = () => {
   return (
     <Router>
-      <AuthenticationProvider>
-        <SiteHomepageProvider>
-          <MenuOnLeft>
-            <Switch>
-              <Route path="/contact">
-                <ContactPage />
-              </Route>
-              <Route path="/my-philosphy">
-                <MyPhilosophyPage />
-              </Route>
-              <Route path="/about">
-                <AboutPage />
-              </Route>
-              <Route path="/login">
-                <SignupOrLoginPage />
-              </Route>
-              <Route path="/:username">
-                <UserHomepage />
-              </Route>
-              <Route path="/">
-                <WebsiteHomepage />
-              </Route>
-            </Switch>
-          </MenuOnLeft>
-        </SiteHomepageProvider>
-      </AuthenticationProvider>
+      <ColorSchemeProvider>
+        <AuthenticationProvider>
+          <SiteHomepageProvider>
+            <ColorSchemeWrapper style={appWideStyle}>
+              <MenuOnLeft>
+                <Switch>
+                  <Route path="/contact">
+                    <ContactPage />
+                  </Route>
+                  <Route path="/my-philosphy">
+                    <MyPhilosophyPage />
+                  </Route>
+                  <Route path="/about">
+                    <AboutPage />
+                  </Route>
+                  <Route path="/login">
+                    <SignupOrLoginPage />
+                  </Route>
+                  <Route path="/:username">
+                    <UserHomepage />
+                  </Route>
+                  <Route path="/">
+                    <WebsiteHomepage />
+                  </Route>
+                </Switch>
+              </MenuOnLeft>
+            </ColorSchemeWrapper>
+          </SiteHomepageProvider>
+        </AuthenticationProvider>
+      </ColorSchemeProvider>
     </Router>
   )
 }

@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, useHistory } from "react-router-dom"
+import ColorSchemeWrapper from "../../components/ColorSchemeWrapper/ColorSchemeWrapper"
+import SiteHomepageContext from "../../contexts/homepageContext/HomepageContext"
 
 const UserHomepage = () => {
-  const { username } = useParams()
-  const [user, setUser] = useState({
-    username: "Loading..."
-  })
+  useContext(SiteHomepageContext).setDisplayedFalse()
 
+  const { username } = useParams()
+  const [user, setUser] = useState({username: "Loading..."})
   const history = useHistory()
   
-
   useEffect(() => {
     const handleNoPage = () => {alert("This page does not exist."); history.push('/')}
     
@@ -32,7 +32,7 @@ const UserHomepage = () => {
     fetchUser()
   }, [username, history])
 
-  return <div>{user?.username ? `${user.username}` : "NOT FOUND"}</div>
+  return <ColorSchemeWrapper type="h1" style={{color: "_color3"}}>{user.username}</ColorSchemeWrapper> 
 }
 
 export default UserHomepage

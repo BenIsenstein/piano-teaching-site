@@ -1,23 +1,27 @@
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import ColorSchemeWrapper from '../../components/ColorSchemeWrapper/ColorSchemeWrapper'
+import LinkToLeaveHomepage from '../../components/LinkToLeaveHomepage/LinkToLeaveHomepage'
 import AuthenticationContext from '../../contexts/auth/AuthenticationContext'
 import SiteHomepageContext from '../../contexts/homepageContext/HomepageContext'
 import "./SiteHomepage.css"
 
 const Homepage = () => {
-  const authContext = useContext(AuthenticationContext)
-  const homeContext = useContext(SiteHomepageContext)
-  const UserHomepageLink = () => <Link to={{pathname: `/${authContext.username}`}}>My account</Link>
-
-  homeContext.setDisplayedTrue()
+  useContext(SiteHomepageContext).setDisplayedTrue()
+  const { username, isLoggedIn } = useContext(AuthenticationContext)
   
-  return (   
+  const UserHomepageLink = () => 
+    <LinkToLeaveHomepage to={{pathname: `/${username}`}}>My account</LinkToLeaveHomepage>
+  
+  return (  
     <div className="homepage-body">
+      <ColorSchemeWrapper type='h1' style={{color: "_color3"}}>
+        My Website
+      </ColorSchemeWrapper>
       <div style={{display: 'flex'}}>
-        <Link onClick={homeContext.setDisplayedFalse} to="/about">        About</Link>
-        <Link onClick={homeContext.setDisplayedFalse} to="/my-philosphy"> Philosophy</Link>
-        <Link onClick={homeContext.setDisplayedFalse} to="/contact">      Contact</Link>
-        {authContext.isLoggedIn && <UserHomepageLink />} 
+        <LinkToLeaveHomepage to="/about">        About</LinkToLeaveHomepage>
+        <LinkToLeaveHomepage to="/my-philosphy"> Philosophy</LinkToLeaveHomepage>
+        <LinkToLeaveHomepage to="/contact">      Contact</LinkToLeaveHomepage>
+        {isLoggedIn && <UserHomepageLink />} 
       </div>
     </div>  
   )
