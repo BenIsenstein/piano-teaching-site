@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import ColorSchemeWrapper from '../../components/ColorSchemeWrapper/ColorSchemeWrapper'
+import { ColoredH1 } from '../../components/ColorSchemeWrapper/ColorSchemeModule'
 import LinkToLeaveHomepage from '../../components/LinkToLeaveHomepage/LinkToLeaveHomepage'
 import AuthenticationContext from '../../contexts/auth/AuthenticationContext'
 import SiteHomepageContext from '../../contexts/homepageContext/HomepageContext'
@@ -14,9 +14,9 @@ const Homepage = () => {
   
   return (  
     <div className="homepage-body">
-      <ColorSchemeWrapper type='h1' style={{color: "_color3"}}>
+      <ColoredH1 style={{color: "_color4"}}>
         My Website
-      </ColorSchemeWrapper>
+      </ColoredH1>
       <div style={{display: 'flex'}}>
         <LinkToLeaveHomepage to="/about">        About</LinkToLeaveHomepage>
         <LinkToLeaveHomepage to="/my-philosphy"> Philosophy</LinkToLeaveHomepage>

@@ -159,18 +159,17 @@ June 8:
 - add payments and settings to user Schema √
 
 June 9:
+- add forms and inputs to the color scheme module
 - build the container for the three different views in UserHomepage
 - tabs along the top to switch between students, payments, settings
 pieces of state for each view:
 
--  when a user logs out, assess if they're still authorized to be on their current page, or be redirected.
+-  when a user logs out, assess if they're still authorized to be on their current page, or be redirected. √
 
-Add auth check inside the useEffect() in UserHomepage. Right now anyone can visit any user's account
+Add auth check inside the useEffect() in UserHomepage. Right now anyone can visit any user's account √
 
 Devise a method to book lessons with familes/students. Lightweight Calendar/Messaging API?
 - This will ensure kids can't add infinite lessons, polluting their account
-
-Fix buggy HomepageProvider. It only works when you start on the homepage.
 
 Semantically change MenuOnLeft.
 

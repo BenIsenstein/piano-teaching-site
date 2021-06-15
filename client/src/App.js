@@ -12,18 +12,13 @@ import SiteHomepageProvider from "./contexts/homepageContext/HomepageProvider"
 import ColorSchemeProvider from "./contexts/colorSchemeContext/ColorSchemeProvider"
 import ColorSchemeWrapper from "./components/ColorSchemeWrapper/ColorSchemeWrapper"
 
-const appWideStyle = {
-  backgroundColor: "_color1",
-  border: "4px dotted _color4",
-}
-
 const App = () => {
   return (
     <Router>
       <ColorSchemeProvider>
         <AuthenticationProvider>
           <SiteHomepageProvider>
-            <ColorSchemeWrapper style={appWideStyle}>
+            <ColorSchemeWrapper className="App-wrapper" style={{border: "4px dotted _color4"}}>
               <MenuOnLeft>
                 <Switch>
                   <Route path="/contact">

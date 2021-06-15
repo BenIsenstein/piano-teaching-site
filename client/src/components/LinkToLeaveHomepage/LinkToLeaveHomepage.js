@@ -5,7 +5,7 @@ import SiteHomepageContext from '../../contexts/homepageContext/HomepageContext'
 const LinkToLeaveHomepage = ({ children, ...props }) => 
   <Link 
     onClick={useContext(SiteHomepageContext).setDisplayedFalse} 
-    to={props.to}
+    {...props}
   >
     {children}
   </Link>

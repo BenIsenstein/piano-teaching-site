@@ -1,8 +1,7 @@
 import React from 'react'
-import colorSchemeData from "./colorSchemeData"
 
 const ColorSchemeContext = React.createContext({
-    colorScheme: colorSchemeData["Purple Tints And Tones"],
+    colorScheme: undefined,
     setColorScheme: () => {},
     setColorSchemeByName: (name) => {}
 })
