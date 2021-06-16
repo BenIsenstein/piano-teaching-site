@@ -1,4 +1,3 @@
-import React from "react"
 import ColorSchemeWrapper from "./ColorSchemeWrapper"
 
 const ColoredDiv = (props) => <ColorSchemeWrapper {...props} />

@@ -155,14 +155,13 @@ Save a milestone story
     * resource Title
     * content
 
-June 8:
-- add payments and settings to user Schema √
 
-June 9:
+
+June 16:
 - add forms and inputs to the color scheme module
-- build the container for the three different views in UserHomepage
-- tabs along the top to switch between students, payments, settings
-pieces of state for each view:
+- build addStudentForm across the entire stack
+
+
 
 -  when a user logs out, assess if they're still authorized to be on their current page, or be redirected. √
 

@@ -1,42 +1,43 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams, useHistory } from "react-router-dom"
-import { ColoredH1 } from "../../components/ColorSchemeWrapper/ColorSchemeModule"
+import { ColoredButton } from "../../components/ColorSchemeWrapper/ColorSchemeModule"
 import AuthenticationContext from "../../contexts/auth/AuthenticationContext"
 import SiteHomepageContext from "../../contexts/homepageContext/HomepageContext"
+import PaymentsTab from "./PaymentsTab"
+import SettingsTab from "./SettingsTab"
+import StudentsTab from "./StudentsTab"
 
 const UserHomepage = () => {
   useContext(SiteHomepageContext).setDisplayedFalse()
-
+  const authContext = useContext(AuthenticationContext)
   const { username } = useParams()
-  const [user, setUser] = useState({username: "Loading..."})
+  const [user, setUser] = useState()
+  const [view, setView] = useState("students")
   const history = useHistory()
-  const isProperUser = useContext(AuthenticationContext).username === username
+  const isCorrectUser = authContext.username === username
+
+  console.log('auth context user: ', authContext.user)
   
   useEffect(() => {
-    const handleNoPage = () => {alert("This page does not exist."); history.push('/')}
-    const handleImproperUser = () => {alert("You are not authorized to view this page."); history.push('/')}
-    const handleAuth = user => isProperUser ? setUser(user) : handleImproperUser()
+    if (authContext.isLoading) return
 
-    const fetchUser = async () => {
-      let fetchUrl = `/api/user/single-user/${username}`
+    if (isCorrectUser) {setUser(authContext.user)} 
+    else {alert("No authorization for this page."); history.push('/')}
 
-      try {
-        let response = await fetch(fetchUrl)
-        let resObject = await response.json()
+  }, [authContext.user, isCorrectUser, authContext.isLoading, history])
 
-        if (resObject.user) handleAuth(resObject.user)
-        else handleNoPage()
-
-      } catch(err) {
-        console.log(`error fetching account '${username}':`, err)
-        alert("There was an error loading your account. We're fixing it as fast as we can.")
-      }
-    }
-
-    fetchUser()
-  }, [username, history, isProperUser])
-
-  return <ColoredH1 style={{color: "_color3"}}>{user.username}</ColoredH1> 
+  return (
+    <div style={{display: 'flex', flexDirection: 'column'}}>
+      <div style={{display: 'flex'}}>
+        <ColoredButton onClick={() => setView("students")}>Students</ColoredButton>
+        <ColoredButton onClick={() => setView("payments")}>Payments</ColoredButton>
+        <ColoredButton onClick={() => setView("settings")}>Settings</ColoredButton>
+      </div>
+      {view === "students" && user && <StudentsTab />} 
+      {view === "payments" && user && <PaymentsTab />}
+      {view === "settings" && user && <SettingsTab />}
+    </div>
+  )
 }
 
 export default UserHomepage
