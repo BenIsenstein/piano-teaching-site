@@ -1,15 +1,9 @@
 import duckSink from "../../images/duckSink.jpg"
-const studentImageStyle = {
-  backgroundImage: "url(" + duckSink + ")",
-  backgroundPosition: "center",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  height: "243px"
-}
+
 
 const StudentDisplayCard = (props) => (
   <div {...props}>
-    <div style={studentImageStyle}/>
+    <img src="https://drive.google.com/uc?id=1zaFkjcPj9fxlGeyfTDWwpC4bvvWuD4Iy" alt="my headshot" width="200px" height="200px"/>
     {props.name || 'No name'}
   </div>
 )

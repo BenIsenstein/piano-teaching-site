@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ben-isenstein-musician-317103",
+  "private_key_id": "6d89ea5a94f50146baa5b43fb6541d41aad5fa01",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCiSyhyldDXc5ZD\nD+AfymCJiQ77d9GiERz3QBT/CFPtqSDJByCFQ3w5E18gDAV9l9NrcjcqxhvyQ8Wn\nVmJieHjHArmXXtbw6nj1OxMItJsxPF7/qaZEt/QkWSrocWFPXSuFRsX3IZq3t+ZZ\nmo6Basn52csI87Cp9DtA4YbH0zYbqpm8RGXSeZwx1Sc7PF3hjzojeefCHeMX6hTs\nnTaO4qNyz+LNBEsn7GMW19HIR2z+TQPHyK5S5/qfqs/mrXDK/I9AZzUA3vteZ5vv\n0ZlVlyftb4TBHAIa0DO0RoL/nzOcEguQIN6r2nBYJb1QrgLQ7WCcEFkN29hFKPK0\nq50Ck06JAgMBAAECggEASYaZVYhQLDv+mHVJyb1LDSRd+ElpXO453D5ZBM3GEEbu\nRoUHE7jmP4lqMD+iAStWqjf9jFBieth/ZHd7bTc9KJQwdsaNxGnF0PwpfGkuYhkC\nxPscC8f3QLxw9wve1TDVtbTBnVvJF3CmWHPwGevCg4JLPMwCfozah2NlR4SF3/Qp\n7HLvRFhA57k2zn61f6jTuOGkI/NpLdc6c7GX0lZi87SNfPDJhl8/R7paIyanIZ9n\nKulLa6iO5AKt9PbnmphbzTt0OJ0RWAtDT9HRDGTxEr8FS+b6FjhBh3gJ138gtmfC\no+ZFmhW/UON1vlfWUtJQK+D2bTL69RXFlJKjR3hwnQKBgQDfMZfwjvV8KxAdLyJY\n/45L9Zqx4Yphf4ZIhKiRcyIqX3saJoUb+dr/F3CcEYUKQbuk3uwFE80uSUD8Y6p7\n6v3DfoxCBo71fNeOa7ron0klJBt/uuEQtYe9afPix1957wJTxZIFOOcY8FE0g7jI\n/3JTs8Y8vKksny8MJw+SKBWCtwKBgQC6Jf6ADDEkucgUCve6l14ZE6y6RhR1NjKH\nbfttF0imB9MskXBthEP0L5qmksogPYHjHmsw3VRsgZRcCa6VgExotalOu+lip4WX\nUHd+AOUcIS2rAFAnTLCTm6RTm31zDCainA0J62y6pkp61Z4/oe7Eq193C+yUa3OP\n2I9X38d4vwKBgFGhEMHhdzUHhug1kelc5g0v8Xj3VSYdft5M7l3r7uXyb9J7nhlC\nQ28igoQCAFdk/RzqjwW4XUV9czAbv4F8y3zRbrjDL0vncerbyctEXnsf/pKzpZb3\n3YJQGuupIWk2GfLLgoE4c4Tyd7CuMEoK6yRjzq/uDC2OtqVKL+6zjFJ3AoGAKgL/\nMFkQElDXpiZfiL4234QAPL4qSdXki4o374QMwmQLtghRDnaGe6ruxV9lvOcE1IR9\n/rZFIoQQPsF0pIsjM5KkVn+0ia5zSRZBEbAUBUg7rVdRv7zgMUA0UyZJpth8M8Dy\ndGWs0WdMcfKaV5QtdjeTQSPwzgJ+P13J5DQ+KbMCgYBFE5h+9tejBNEItixhZASh\n2bn/KpgP1nalOVDur9UUrfsAR5NxDhiYt2YXo0I8X5wlqe+3ISwYo8SmKHB6ewkN\ntmxLocGplFxKrQf9DcFzuyd74CdaLssBKmQQbgSbxL4SAgKu/u1Ribodal+FG469\n1v+doFqj4tZMbO9lDptQPw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "music-service@ben-isenstein-musician-317103.iam.gserviceaccount.com",
+  "client_id": "118346359228904447096",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/music-service%40ben-isenstein-musician-317103.iam.gserviceaccount.com"
+}

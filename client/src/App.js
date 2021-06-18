@@ -11,6 +11,7 @@ import MenuOnLeft from "./components/MenuOnLeft/MenuOnLeft"
 import SiteHomepageProvider from "./contexts/homepageContext/HomepageProvider"
 import ColorSchemeProvider from "./contexts/colorSchemeContext/ColorSchemeProvider"
 import ColorSchemeWrapper from "./components/ColorSchemeWrapper/ColorSchemeWrapper"
+// import "./firebaseConfig"
 
 const App = () => {
   return (

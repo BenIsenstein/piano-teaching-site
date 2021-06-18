@@ -1,8 +1,82 @@
+require('dotenv').config()
 const express = require("express")
 const { findUserByName, addUser, User } = require("../models/db")
 const bcrypt = require("bcrypt")
 const passport = require("passport")
+const fetch = require('node-fetch')
+const {google} = require('googleapis')
 const router = express.Router()
+
+// ------------------------ INITIATE GOOGLE OATH2 CLIENT -----------------------------------
+// (one-time setup, no longer needed)
+
+router.get('/oath-client', (req, res) => {
+  let redirect_uri = "http://localhost:3000/api/user/receive-token"
+  let scope = 'https://www.googleapis.com/auth/drive.file'
+
+  let authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' 
+    + `client_id=${process.env.GOOGLE_CLOUD_ID}&` 
+    + `redirect_uri=${redirect_uri}&` 
+    + `response_type=code&` 
+    + `scope=${scope}&` 
+    + `access_type=offline`
+
+  res.redirect(authUrl)
+  // after user gives consent, the router block just below will handle the auth code, and get the 
+  // final tokens needed to call the API
+})
+
+// ------------------------- RECEIVE GOOGLE ACCESS AND REFRESH TOKENS ------------------------
+// (one-time setup, no longer needed)
+
+router.get("/receive-token", async (req, res) => {
+  let code = req.query.code
+  let redirect_uri = "http://localhost:3000/api/user/receive-token"
+
+  console.log("GET /api/user/receive-token")
+  console.log('auth code: ', code)
+
+  let url = "https://oauth2.googleapis.com/token?" 
+    + `client_id=${process.env.GOOGLE_CLOUD_ID}&`
+    + `client_secret=${process.env.GOOGLE_CLOUD_SECRET}&`
+    + `code=${code}&`
+    + `redirect_uri=${redirect_uri}&`
+    + 'grant_type=authorization_code'
+
+  let response = await fetch(url, {method: 'POST'})
+  let resObject = await response.json()
+
+  console.log('first-time auth tokens resObject: ', resObject)
+
+  // save tokens to permanent storage - MONGODB??
+
+  res.redirect("http://localhost:4444/")
+})
+
+// --------------------------- UPLOAD PHOTO OR VIDEO TO GOOGLE DRIVE ----------------------
+// (the actual google API magic using access token)
+
+router.post('/google-drive-upload', async (req, res) => {
+  // refresh access token  
+  let url = "https://oauth2.googleapis.com/token?" 
+    + `client_id=${process.env.GOOGLE_CLOUD_ID}&`
+    + `client_secret=${process.env.GOOGLE_CLOUD_SECRET}&`
+    + `refresh_token=${process.env.GOOGLE_CLOUD_REFRESH_TOKEN}&`
+    + 'grant_type=refresh_token'
+
+  let response = await fetch(url, {method: 'POST'})
+  let resObject = await response.json()
+
+  let {access_token} = resObject
+
+  // DO STUFF TO GOOGLE DRIVE
+  // maybe implement the actual DRIVE client from here on out?
+  let driveUrl = "https://www.googleapis.com/drive/v2/files"
+  let driveOptions = { headers: { 'Authorization': `Bearer ${access_token}` }}
+  let driveFetch = await fetch(driveUrl, driveOptions)
+
+  // do more stuff
+})
 
 // ----------------------------------- SIGNUP -----------------------------------
 
@@ -115,26 +189,24 @@ router.get("/logout",
 // ------------------------------------ UPDATE USER---------------------------------
 
 // Update a user by id
-router.put('/edit/:id', 
-  async (req, res) => {
-    let userToUpdate = req.body
-    
-    try {
-      let data = await User.findByIdAndUpdate(req.params.id, userToUpdate);
-      console.log("Updated User", data)
-      res.redirect('/home');
+router.put('/edit/:id', async (req, res) => {
+  let userToUpdate = req.body
+  
+  try {
+    let data = await User.findByIdAndUpdate(req.params.id, userToUpdate);
+    console.log("Updated User", data)
+    res.redirect('/home');
+  }
+  catch(err) {
+    console.log(err)
+    if (err.code === 11000) {
+      res.status(409).send('User ' + userToUpdate.name + ' already exists');      
     }
-    catch(err) {
-      console.log(err)
-      if (err.code === 11000) {
-        res.status(409).send('User ' + userToUpdate.name + ' already exists');      
-      }
-      else {
-        res.sendStatus(500)
-      }
+    else {
+      res.sendStatus(500)
     }
   }
-)
+})
 
 // -------------------- check if user name is available --------------------
 
