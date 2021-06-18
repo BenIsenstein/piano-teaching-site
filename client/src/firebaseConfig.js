@@ -1,16 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/storage";
+import firebaseConfig from "./firebaseObject"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-var firebaseConfig = {
-  apiKey: "AIzaSyAdwvr1tC0GDgqKg0ZyfmX0WnXqnICAXN8",
-  authDomain: "ben-isenstein-musician.firebaseapp.com",
-  projectId: "ben-isenstein-musician",
-  storageBucket: "ben-isenstein-musician.appspot.com",
-  messagingSenderId: "955363502669",
-  appId: "1:955363502669:web:0f2c9f5885a777cdaa0a04",
-  measurementId: "G-G6F6287T7G"
-};
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 // Get a reference to the storage service, which is used to create references in your storage bucket
