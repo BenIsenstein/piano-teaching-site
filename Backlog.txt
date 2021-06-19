@@ -158,6 +158,7 @@ Save a milestone story
 
 
 June 16:
+- fix redirect behaviour on image upload
 - add forms and inputs to the color scheme module
 - build addStudentForm across the entire stack
 
