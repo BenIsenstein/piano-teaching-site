@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     student: {
       name: String,
       nicknames: [String],
-      photo: mongoose.Mixed,
+      photo: String,
       gender: String,
       about: String,
       studyingSince: String,
@@ -40,13 +40,13 @@ const userSchema = new mongoose.Schema({
         resources: [{
           title: String,
           date: String,
-          content: mongoose.Mixed
+          content: String
         }]
       }], 
       allResources: [{
         title: String,
         date: String,
-        content: mongoose.Mixed
+        content: String
       }],
       milestones: [{
         title: String,
@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
         comments: String,
         resources: [{
           title: String,
-          content: mongoose.Mixed
+          content: String
         }]
       }]
     }
@@ -66,7 +66,7 @@ const userSchema = new mongoose.Schema({
       date: String,
       totalHours: Number,
       totalDollars: Number,
-      receipt: mongoose.Mixed
+      receipt: String
     }]
   },
   settings: {

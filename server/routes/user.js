@@ -12,10 +12,15 @@ const router = express.Router()
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLOUD_ID,
   process.env.GOOGLE_CLOUD_SECRET,
-  process.env.GOOGLE_CLOUD_REDIRECT_URI
+  //process.env.GOOGLE_CLOUD_REDIRECT_URI
 )
 
-oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_CLOUD_REFRESH_TOKEN })
+oauth2Client.setCredentials({ 
+  refresh_token: process.env.GOOGLE_CLOUD_REFRESH_TOKEN 
+})
+
+// define google drive instance
+const gDrive = google.drive({ version: 'v3', auth: oauth2Client })
 
 // ------------------------ INITIATE GOOGLE OATH2 CLIENT -----------------------------------
 // (one-time setup, no longer needed)
@@ -66,44 +71,45 @@ oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_CLOUD_REFRESH_TO
 // --------------------------- UPLOAD PHOTO OR VIDEO TO GOOGLE DRIVE ----------------------
 // (the actual google API magic using access token)
 
-// refresh access token  
-  // let refreshUrl = "https://oauth2.googleapis.com/token?" 
-  //   + `client_id=${process.env.GOOGLE_CLOUD_ID}&`
-  //   + `client_secret=${process.env.GOOGLE_CLOUD_SECRET}&`
-  //   + `refresh_token=${process.env.GOOGLE_CLOUD_REFRESH_TOKEN}&`
-  //   + 'grant_type=refresh_token'
-
-  // let refreshFetch = await fetch(refreshUrl, {method: 'POST'})
-  // let refreshObject = await refreshFetch.json()
-  // let {access_token} = refreshObject
-
 router.post('/google-drive-upload', async (req, res) => {
-  // define google drive instance
-  const drive = google.drive({ version: 'v3', auth: oauth2Client })
+  const form = formidable({ keepExtensions: true })
 
-  const uploadContent = async (files) => {
-    let driveUpload = await drive.files.create({
-      requestBody: {
-        name: files.file.name,
-        mimeType: 'image/jpeg'
-      },
-      media: {
-        mimeType: 'image/jpeg',
-        body: fs.createReadStream(files.file._writeStream.path)
-      }
+  form.parse(req, async (err, files) => {
+    // define internal filepath for the incoming file
+    let file = files?.file
+    let filePath = file?._writeStream?.path
+
+    console.log("formidable FILES: ", files)
+
+
+
+    // handle potential errors first
+    if (err) console.log(err)
+    if (!filePath) console.log('no filePath')
+    if (err || !filePath) return res.json({ success: false })
+
+    // build data for gDrive.files.create() 
+    let requestBody = {
+      name: file?.name,
+      mimeType: 'image/jpeg'
+    }
+    let media = {
+      mimeType: 'image/jpeg',
+      body: fs.createReadStream(filePath)
+    }
+
+    // make files.Create() request
+    let driveUpload = await gDrive.files.create({ 
+      requestBody, 
+      media 
     })
-    // do something with new file id
+
     console.log('drive upload response:', driveUpload)
 
-    let driveId = driveUpload.config.data.id
-  }
+    // do something with new file id
+    let contentId = driveUpload?.config?.data?.id
 
-  // prepare the file that was sent over to be uploaded to DRIVE
-  let form = formidable()
-
-  form.parse(req, async (err, fields, files) => {
-    if (err) return console.log(err)
-    uploadContent(files)
+    res.json({ success: true })
   })
 })
 

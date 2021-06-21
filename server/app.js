@@ -10,7 +10,7 @@ const logger = require("morgan")
 const session = require("express-session")
 const passport = require("passport")
 
-// Define exxpress app 
+// Define express app 
 const app = express()
 
 // IMPORT ROUTES
