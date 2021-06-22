@@ -15,6 +15,11 @@ const AboutPage = () => {
   useContext(SiteHomepageContext).setDisplayedFalse()
   const { register, formState: { errors }, handleSubmit } = useForm({})
 
+  const log = () => {
+    let formData = new FormData(test)
+    console.log("formData: ", ...formData)
+  }
+
   const onSubmit = async (data) => {
     let action = "/api/user/google-drive-upload"
     let reqOptions = {
@@ -29,12 +34,15 @@ const AboutPage = () => {
       resObject = await res.json() 
       //catch {resObject = await res.trim().json()}
 
-      if (resObject.success) return alert("Success!")
-      else return alert("success FALSE")
+      if (resObject.success) alert("Success!")
+      else alert("success FALSE")
     }
     catch (err) {
       console.log(err)
-      return alert("There was an issue submitting this info. We're working on it as fast as we can.")
+      alert(`
+        There was an issue submitting this info. 
+        We're working on it as fast as we can.
+      `)
     }
   }
 
@@ -46,7 +54,7 @@ const AboutPage = () => {
       style={{color:"_color1", backgroundColor: "_color5"}}
     >
       <label htmlFor="file">file here</label>
-      <input id="file" name="file" type="file" {...register("file")} onChange={() => console.log('formData: ', new FormData(test))}/>
+      <input id="file" name="file" type="file" {...register("file")} onChange={() => log()}/>
       <br />
       <input type= "submit" value="submit me"/>
     </ColorSchemeWrapper>

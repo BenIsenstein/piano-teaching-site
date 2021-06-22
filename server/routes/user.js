@@ -72,16 +72,15 @@ const gDrive = google.drive({ version: 'v3', auth: oauth2Client })
 // (the actual google API magic using access token)
 
 router.post('/google-drive-upload', async (req, res) => {
-  const form = formidable({ keepExtensions: true })
+  const form = formidable({ keepExtensions: true, multiples: true })
 
-  form.parse(req, async (err, files) => {
-    // define internal filepath for the incoming file
+  form.parse(req, async (err, fields, files) => {
+    // define internal filepath and MIME type for the incoming file
     let file = files?.file
-    let filePath = file?._writeStream?.path
+    let fileType = file?.type
+    let filePath = file?.path
 
     console.log("formidable FILES: ", files)
-
-
 
     // handle potential errors first
     if (err) console.log(err)
@@ -91,10 +90,10 @@ router.post('/google-drive-upload', async (req, res) => {
     // build data for gDrive.files.create() 
     let requestBody = {
       name: file?.name,
-      mimeType: 'image/jpeg'
+      mimeType: fileType
     }
     let media = {
-      mimeType: 'image/jpeg',
+      mimeType: fileType,
       body: fs.createReadStream(filePath)
     }
 
@@ -104,10 +103,28 @@ router.post('/google-drive-upload', async (req, res) => {
       media 
     })
 
-    console.log('drive upload response:', driveUpload)
+    //console.log('drive upload response:', driveUpload)
 
     // do something with new file id
-    let contentId = driveUpload?.config?.data?.id
+    let fileId = driveUpload?.data?.id
+
+    await gDrive.permissions.create({
+      fileId: fileId,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone',
+      }
+    })
+
+    let getLink = await gDrive.files.get({
+      fileId: fileId,
+      fields: 'webViewLink',
+    })
+
+    let webViewLink = getLink?.data?.webViewLink
+
+    console.log('view link response:', webViewLink)
+
 
     res.json({ success: true })
   })
