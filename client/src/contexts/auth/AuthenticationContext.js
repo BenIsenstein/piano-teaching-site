@@ -5,6 +5,8 @@ const AuthenticationContext = React.createContext({
     username: '',
     id: '',
     isAdministrator: false,
+    isLoggedIn: false,
+    isLoading: false,
     logIn: (username, isAdministrator) => {},
     logOut: () => {}
 })

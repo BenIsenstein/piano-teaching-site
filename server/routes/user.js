@@ -9,10 +9,10 @@ const fs = require("fs")
 const formidable = require('formidable');
 const router = express.Router()
 
+// authorizing google API calls
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLOUD_ID,
   process.env.GOOGLE_CLOUD_SECRET,
-  //process.env.GOOGLE_CLOUD_REDIRECT_URI
 )
 
 oauth2Client.setCredentials({ 
@@ -69,65 +69,84 @@ const gDrive = google.drive({ version: 'v3', auth: oauth2Client })
 // })
 
 // --------------------------- UPLOAD PHOTO OR VIDEO TO GOOGLE DRIVE ----------------------
-// (the actual google API magic using access token)
 
 router.post('/google-drive-upload', async (req, res) => {
   const form = formidable({ keepExtensions: true, multiples: true })
 
-  form.parse(req, async (err, fields, files) => {
-    // define internal filepath and MIME type for the incoming file
-    let file = files?.file
-    let fileType = file?.type
-    let filePath = file?.path
+  console.log('before parse block ran!')
+  let isSuccessful 
 
-    console.log("formidable FILES: ", files)
-
-    // handle potential errors first
-    if (err) console.log(err)
-    if (!filePath) console.log('no filePath')
-    if (err || !filePath) return res.json({ success: false })
-
-    // build data for gDrive.files.create() 
-    let requestBody = {
-      name: file?.name,
-      mimeType: fileType
-    }
-    let media = {
-      mimeType: fileType,
-      body: fs.createReadStream(filePath)
-    }
-
-    // make files.Create() request
-    let driveUpload = await gDrive.files.create({ 
-      requestBody, 
-      media 
-    })
-
-    //console.log('drive upload response:', driveUpload)
-
-    // do something with new file id
-    let fileId = driveUpload?.data?.id
-
-    await gDrive.permissions.create({
-      fileId: fileId,
-      requestBody: {
-        role: 'reader',
-        type: 'anyone',
+  try {
+    form.parse(req, async (err, fields, files) => {
+      console.log('files: ', files)
+      // define internal filepath and MIME type for the incoming file
+      let newFile = files?.file
+      let newFileType = newFile?.type
+      let newFilePath = newFile?.path
+  
+      // handle potential errors first
+      if (err) console.log(err)
+      if (!newFilePath) console.log('no filePath')
+      if (!newFile?.size) console.log('file size 0')
+      if (err || !newFile?.size) return isSuccessful = false
+  
+      // build data for gDrive.files.create() 
+      let requestBody = {
+        name: newFile?.name,
+        mimeType: newFileType
       }
+      let media = {
+        mimeType: newFileType,
+        body: fs.createReadStream(newFilePath)
+      }
+  
+      console.log('requestBody: ', requestBody)
+      console.log('media: ', media)
+  
+      // make files.Create() request
+      let driveUpload = await gDrive.files.create({ requestBody, media })
+  
+      console.log('drive upload response:', driveUpload)
+  
+      // new file id 
+      let newFileId = driveUpload?.data?.id
+  
+      // set permissions for public access
+      await gDrive.permissions.create({
+        fileId: newFileId,
+        requestBody: {
+          role: 'reader',
+          type: 'anyone',
+        }
+      })
+  
+      // get public view link
+      let getLink = await gDrive.files.get({
+        fileId: newFileId,
+        fields: 'webViewLink',
+      })
+      let webViewLink = getLink?.data?.webViewLink
+      console.log('view link response:', webViewLink)
+
+      // add webviewlink to appropriate mongo document
+
+      // set success
+      return isSuccessful = true
+
+  
     })
 
-    let getLink = await gDrive.files.get({
-      fileId: fileId,
-      fields: 'webViewLink',
-    })
-
-    let webViewLink = getLink?.data?.webViewLink
-
-    console.log('view link response:', webViewLink)
 
 
-    res.json({ success: true })
-  })
+    // return response
+    res.json({ success: isSuccessful })
+    
+
+  }
+  catch(err) {
+    console.log("drive upload error: ", err)
+    res.json({ success: false })
+  }
 })
 
 // ----------------------------------- SIGNUP -----------------------------------
@@ -189,18 +208,6 @@ router.get('/single-user/:username',
 // ----------------------------------- LOGIN -----------------------------------
 
 router.post("/login",
-  // check if someone is already logged in
-  (req, res, next) => {
-    // if someone is already logged in, send back {isAlreadyLoggedIn: true}
-    if (req.isAuthenticated()) {
-      res.json({ isAlreadyLoggedIn: true })
-    } 
-    // move to authentication middleware if no one is logged in
-    else {
-      console.log("about to log in")
-      next() 
-    }
-  },
   // authentication middleware. sends a status code 401 if auth fails
   passport.authenticate("local"),
   // if authentication passes, the next function has access to req.user

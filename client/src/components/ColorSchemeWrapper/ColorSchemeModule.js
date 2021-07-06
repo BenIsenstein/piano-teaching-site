@@ -3,7 +3,7 @@ import ColorSchemeWrapper from "./ColorSchemeWrapper"
 const ColoredDiv = (props) => <ColorSchemeWrapper {...props} />
 
 // All headers have a default backgroundColor of "_color2"
-// and default tag tag of "h1"
+// and default tag of "h1"
 const ColoredHeader = ({ style, ...props }) => {
   let headerStyle = { ...style }
   let headerProps = { ...props }

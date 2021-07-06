@@ -14,7 +14,7 @@ const ColorSchemeProvider = ({ children }) => {
   }
 
   return (
-    <ColorSchemeContext.Provider value={ contextValue }>
+    <ColorSchemeContext.Provider value={contextValue}>
       { children }
     </ColorSchemeContext.Provider>
   )

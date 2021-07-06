@@ -10,7 +10,7 @@ import ColorSchemeContext from "../../contexts/colorSchemeContext/ColorSchemeCon
 const ColorSchemeWrapper = ({ style, ...props }) => {
   // use ColorSchemeContext
   // define tagtag from props
-  // define default className using the first key/value pair in style, or tagtag if no style
+  // define default className using the first key/value pair in style, or tagType if no style
   const colorScheme = useContext(ColorSchemeContext).colorScheme
   const tagType = props.tag || 'div' 
   const semanticClassName = style 
@@ -28,7 +28,7 @@ const ColorSchemeWrapper = ({ style, ...props }) => {
   if (!style.backgroundColor) style.backgroundColor = "_color1"
 
   for (let key in style) {
-    dynamicStyle[key] = style[key].replace(colorRegex, (match) => colorScheme[match])
+    dynamicStyle[key] = style[key].replace(colorRegex, match => colorScheme[match])
   }
   
   // wrap children and use dynamicStyle

@@ -49,22 +49,17 @@ const AuthenticationProvider = ({ children }) => {
       let response = await fetch(fetchUrl, fetchOptions)
 
       // they tried to log in, but passport authentication failed
-      if (response.status === 401) {return alert('Unable to log in. Please make sure your login info is correct.')}
+      if (response.status === 401) return alert('Unable to log in. Please make sure your login info is correct.')
         
       // parse the response as JSON since we're sure it has a value
       let resObject = await response.json() 
-
-      // they are already logged in
-      if (resObject.isAlreadyLoggedIn) {alert('You are already logged in. Please log out before logging in as a different gardener.')}
       
-      // success logging in server-side
-      else {
-        setUser(resObject.user)
-        let { username, _id } = resObject.user
-        setUsername(username) 
-        setId(_id)
-        redirectHome()
-      }
+      // log in client-side
+      setUser(resObject.user)
+      let { username, _id } = resObject.user
+      setUsername(username) 
+      setId(_id)
+      redirectHome()
     }
     catch(err) {
       // reset context

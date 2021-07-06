@@ -15,24 +15,18 @@ const AboutPage = () => {
   useContext(SiteHomepageContext).setDisplayedFalse()
   const { register, formState: { errors }, handleSubmit } = useForm({})
 
-  const log = () => {
-    let formData = new FormData(test)
-    console.log("formData: ", ...formData)
-  }
-
   const onSubmit = async (data) => {
     let action = "/api/user/google-drive-upload"
     let reqOptions = {
       method: 'post',
-      //headers: {'content-type': 'image/jpeg'},
       body: new FormData(test)
     }
 
     try {
       let res = await fetch(action, reqOptions)
-      let resObject
-      resObject = await res.json() 
-      //catch {resObject = await res.trim().json()}
+      console.log('initial fetch success')
+      let resObject = await res.json() 
+      console.log('res.json() success')
 
       if (resObject.success) alert("Success!")
       else alert("success FALSE")
@@ -50,13 +44,13 @@ const AboutPage = () => {
     <ColorSchemeWrapper 
       tag="form"
       id="test"
-      onSubmit={handleSubmit(async (data) => await onSubmit(data))}
-      style={{color:"_color1", backgroundColor: "_color5"}}
+      onSubmit={async (data) => await onSubmit(data)}
+      style={{ color:"_color1", backgroundColor: "_color5" }}
     >
       <label htmlFor="file">file here</label>
-      <input id="file" name="file" type="file" {...register("file")} onChange={() => log()}/>
+      <input id="file" name="file" type="file" {...register("file", {required: "you must submit a file."})} />
       <br />
-      <input type= "submit" value="submit me"/>
+      <input type="submit" value="submit me"/>
     </ColorSchemeWrapper>
   )
 }
